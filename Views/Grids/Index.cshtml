@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Application.Grid>
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/Content/datatables.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/datatables.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+
+<h2>Index</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table" id="example">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.first)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.last)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.age)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.first)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.last)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.age)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script>
+    var table = $('#example').DataTable();
+
+    table.columns().flatten().each(function (colIdx) {
+        // Create the select list and search operation
+        var select = $('<select />')
+            .appendTo(
+                table.column(colIdx).footer()
+            )
+            .on('change', function () {
+                table
+                    .column(colIdx)
+                    .search($(this).val())
+                    .draw();
+            });
+
+        // Get the search data for the first column and add to the select list
+        table
+            .column(colIdx)
+            .cache('search')
+            .sort()
+            .unique()
+            .each(function (d) {
+                select.append($('<option value="' + d + '">' + d + '</option>'));
+            });
+    });
+</script>
+

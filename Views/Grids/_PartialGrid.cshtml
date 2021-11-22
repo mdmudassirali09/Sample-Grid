@@ -1,0 +1,53 @@
+﻿@using GridMvc.Html
+@model IEnumerable<Application.Grid>
+
+<div class="container">
+
+    <div style="float:left;">
+        <h2>Grid</h2>
+    </div>
+    <div style="float:right;">
+        <br />
+        <div style="float:left;">
+            @using (Html.BeginForm())
+            {
+                <div style="float:left;">
+                    <input type="text" name="Search" class="form-control" placeholder="Search" value=@ViewBag.S>
+                </div>
+                <div style="float:right;">
+                    <button style="margin-right: 16px" class="btn btn-secondary" type="submit"> <i class="fas fa-search"></i></button>
+                </div>
+            }
+        </div>
+        <div style="float:right;">
+            <span style="float:right;">
+                <button class="btn btn-secondary" onclick="location.href ='Export'"><i class="fas fa-file-export"></i></button>
+            </span>
+        </div>
+    </div>
+
+    <div class="container">
+        @Html.Grid(Model).Columns(columns =>
+        {
+            columns.Add(model => model.Id).Titled("Id").Filterable(true);
+            columns.Add(model => model.username).Titled("Username").Filterable(true);
+            columns.Add(model => model.first).Titled("First Name").Filterable(true);
+            columns.Add(model => model.last).Titled("Last Name").Filterable(true);
+            columns.Add(model => model.gender).Titled("Gender").Filterable(true);
+            columns.Add(model => model.age).Titled("Age").Filterable(true);
+            columns.Add().Titled("Seleccion").Encoded(false).Sanitized(false).SetWidth(45).RenderValueAs(p => @Html.CheckBox("Status" + Convert.ToString(p.Id), new { }));
+            columns.Add()
+                   .Titled("Actions")
+                   .Encoded(false)
+                   .Sanitized(false)
+                   .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o.Id }) + " | " + Html.ActionLink("Delete", "Delete", new { id = o.Id }));
+        }).WithPaging(10).Sortable(true)
+    </div>
+
+
+    @using (Html.BeginForm("Grid", "Grids", FormMethod.Post, new { id = "formIdHere" }))
+    {
+        @Html.DropDownList("Page", new SelectList(new Dictionary<string, int> { { "10", 10 }, { "20", 20 }, { "50", 50 } }, "Key", "Value", ViewBag.pageSize), new { id = "pagesizelist", onchange = "onDdlPageChange(this);" })
+    }
+</div>
+
