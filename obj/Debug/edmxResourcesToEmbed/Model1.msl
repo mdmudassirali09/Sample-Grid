@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SampleModel1StoreContainer" CdmEntityContainer="SampleEntities1">
+    <EntitySetMapping Name="Grids">
+      <EntityTypeMapping TypeName="SampleModel1.Grid">
+        <MappingFragment StoreEntitySet="Grids">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="first" ColumnName="first" />
+          <ScalarProperty Name="last" ColumnName="last" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="age" ColumnName="age" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
